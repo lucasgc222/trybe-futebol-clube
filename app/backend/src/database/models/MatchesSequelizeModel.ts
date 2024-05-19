@@ -55,10 +55,12 @@ MatchesSequelizeModel.init({
 
 TeamsSequelizeModel.hasMany(MatchesSequelizeModel, {
   foreignKey: 'homeTeamId',
+  as: 'homeMatches',
 });
 
 TeamsSequelizeModel.hasMany(MatchesSequelizeModel, {
   foreignKey: 'awayTeamId',
+  as: 'awayMatches',
 });
 
 MatchesSequelizeModel.belongsTo(TeamsSequelizeModel, {
