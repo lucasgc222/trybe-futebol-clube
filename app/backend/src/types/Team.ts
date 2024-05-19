@@ -7,4 +7,8 @@ export type TeamPoints = {
   totalLosses: number,
   goalsFavor: number,
   goalsOwn: number,
+  goalsBalance: number,
+  efficiency: string,
 };
+
+export type TeamSide = 'Home' | 'Away';
