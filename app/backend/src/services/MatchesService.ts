@@ -1,4 +1,4 @@
-import TeamsModel from '../models';
+import { TeamsModel } from '../models';
 import MatchesModel from '../models/MatchesModel';
 import { ServiceResponse } from '../types/response';
 import IMatches,

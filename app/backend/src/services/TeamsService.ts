@@ -1,7 +1,7 @@
 import { ServiceResponse, Message } from '../types/response';
 import { IList } from '../Interfaces/IModels';
 import ITeams from '../Interfaces/ITeams';
-import TeamsModel from '../models/index';
+import { TeamsModel } from '../models';
 
 export default class TeamsService {
   constructor(private teamsModel: IList<ITeams> = new TeamsModel()) {}

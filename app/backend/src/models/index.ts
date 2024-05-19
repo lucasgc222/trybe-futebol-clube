@@ -1,3 +1,4 @@
 import TeamsModel from './TeamsModel';
+import MatchesModel from './MatchesModel';
 
-export default TeamsModel;
+export { TeamsModel, MatchesModel };
