@@ -9,14 +9,21 @@ class LeaderboardCalc {
     this.teamsMatches = teamsMatches;
   }
 
-  private static calculatePoints(matches: IMatches[], points: TeamPoints): TeamPoints {
+  private static calculatePoints(
+    side: TeamSide,
+    matches: IMatches[],
+    points: TeamPoints,
+  ): TeamPoints {
     const info = points;
     matches.forEach((match) => {
-      info.totalVictories += match.homeTeamGoals > match.awayTeamGoals ? 1 : 0;
-      info.totalDraws += match.homeTeamGoals === match.awayTeamGoals ? 1 : 0;
-      info.totalLosses += match.homeTeamGoals < match.awayTeamGoals ? 1 : 0;
-      info.goalsFavor += match.homeTeamGoals;
-      info.goalsOwn += match.awayTeamGoals;
+      const teamGoals1 = side === 'Home' ? match.homeTeamGoals : match.awayTeamGoals;
+      const teamGoals2 = side === 'Home' ? match.awayTeamGoals : match.homeTeamGoals;
+
+      info.totalVictories += teamGoals1 > teamGoals2 ? 1 : 0;
+      info.totalDraws += teamGoals1 === teamGoals2 ? 1 : 0;
+      info.totalLosses += teamGoals1 < teamGoals2 ? 1 : 0;
+      info.goalsFavor += teamGoals1;
+      info.goalsOwn += teamGoals2;
     });
     info.totalPoints = info.totalVictories * 3 + info.totalDraws;
     info.goalsBalance = info.goalsFavor - info.goalsOwn;
@@ -41,7 +48,7 @@ class LeaderboardCalc {
         efficiency: '0.00',
       };
 
-      return LeaderboardCalc.calculatePoints(matches, points);
+      return LeaderboardCalc.calculatePoints(side, matches, points);
     });
     return teamsPoints;
   }
