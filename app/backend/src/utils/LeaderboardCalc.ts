@@ -1,6 +1,7 @@
 import { TeamPoints, TeamSide } from '../types/Team';
 import IMatches from '../Interfaces/IMatches';
 import { ITeamMatches } from '../Interfaces/ITeams';
+import TeamScore from './TeamScore';
 
 class LeaderboardCalc {
   private teamsMatches: ITeamMatches[];
@@ -9,12 +10,10 @@ class LeaderboardCalc {
     this.teamsMatches = teamsMatches;
   }
 
-  private static calculatePoints(
-    side: TeamSide,
-    matches: IMatches[],
-    points: TeamPoints,
-  ): TeamPoints {
-    const info = points;
+  private static calculatePoints(side: TeamSide, matches: IMatches[]): TeamPoints {
+    const info = new TeamScore();
+    info.totalGames = matches.length;
+
     matches.forEach((match) => {
       const teamGoals1 = side === 'Home' ? match.homeTeamGoals : match.awayTeamGoals;
       const teamGoals2 = side === 'Home' ? match.awayTeamGoals : match.homeTeamGoals;
@@ -32,25 +31,15 @@ class LeaderboardCalc {
   }
 
   getLeaderboardByType(side: TeamSide): TeamPoints[] {
-    const teamsPoints = this.teamsMatches.map((team) => {
+    const teamPoints = this.teamsMatches.map((team) => {
       const matches = side === 'Home' ? team.homeMatches : team.awayMatches;
 
-      const points: TeamPoints = {
-        name: team.teamName,
-        totalPoints: 0,
-        totalGames: matches.length,
-        totalVictories: 0,
-        totalDraws: 0,
-        totalLosses: 0,
-        goalsFavor: 0,
-        goalsOwn: 0,
-        goalsBalance: 0,
-        efficiency: '0.00',
-      };
+      const points = LeaderboardCalc.calculatePoints(side, matches);
+      points.name = team.teamName;
 
-      return LeaderboardCalc.calculatePoints(side, matches, points);
+      return points;
     });
-    return teamsPoints;
+    return teamPoints;
   }
 }
 
