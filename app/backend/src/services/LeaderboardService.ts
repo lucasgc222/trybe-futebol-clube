@@ -11,9 +11,7 @@ export default class LeaderboardService {
 
     const leaderboardCalc = new LeaderboardCalc(teamsM);
 
-    const homePoints = leaderboardCalc.getLeaderboardByType('Home')
-      .sort((a, b) => b.totalPoints - a.totalPoints || b.totalVictories - a.totalVictories
-        || b.goalsBalance - a.goalsBalance || b.goalsFavor - a.goalsFavor);
+    const homePoints = leaderboardCalc.getLeaderboardByType('Home');
 
     return { status: 'successful', data: homePoints };
   }
@@ -23,9 +21,7 @@ export default class LeaderboardService {
 
     const calc = new LeaderboardCalc(teamsM);
 
-    const awayPoints = calc.getLeaderboardByType('Away')
-      .sort((a, b) => b.totalPoints - a.totalPoints || b.totalVictories - a.totalVictories
-        || b.goalsBalance - a.goalsBalance || b.goalsFavor - a.goalsFavor);
+    const awayPoints = calc.getLeaderboardByType('Away');
 
     return { status: 'successful', data: awayPoints };
   }

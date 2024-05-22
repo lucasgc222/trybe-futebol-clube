@@ -39,7 +39,14 @@ class LeaderboardCalc {
 
       return points;
     });
-    return teamPoints;
+    return LeaderboardCalc.sortTeamList(teamPoints);
+  }
+
+  private static sortTeamList(teamList: TeamPoints[]): TeamPoints[] {
+    return teamList.sort((a, b) => b.totalPoints - a.totalPoints
+    || b.totalVictories - a.totalVictories
+    || b.goalsBalance - a.goalsBalance
+    || b.goalsFavor - a.goalsFavor);
   }
 }
 
