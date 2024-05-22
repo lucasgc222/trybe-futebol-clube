@@ -25,4 +25,14 @@ export default class LeaderboardService {
 
     return { status: 'successful', data: awayPoints };
   }
+
+  async leaderboard(): Promise<ServiceResponse<TeamPoints[]>> {
+    const teamsM = await this.teamsModel.findAllTeamMatches();
+
+    const calc = new LeaderboardCalc(teamsM);
+
+    const points = calc.getLeaderboard();
+
+    return { status: 'successful', data: points };
+  }
 }
