@@ -11,21 +11,16 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x, "lts/*"]
-        # A aplicação foi feita no Node 16 e lts para ver comportamento nas versões de longo suporte
-
     steps:
     - uses: actions/checkout@v4
 
     - name: Export environment variables
       run: echo "${{ secrets.SECRET }}" > ./app/backend/.env
 
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node 16
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 16.x
         cache: 'npm'
     - run: npm ci
     - run: npm run build --if-present
