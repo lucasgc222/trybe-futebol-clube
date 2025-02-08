@@ -1,4 +1,4 @@
-name: CI
+name: Backend tests
 
 on:
   push:
@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -17,21 +16,26 @@ jobs:
     - name: Export environment variables
       run: echo "${{ secrets.SECRET }}" > ./app/backend/.env
 
-    - name: Use Node 16
+    - name: Use Node 18
       uses: actions/setup-node@v4
       with:
-        node-version: 16.x
+        node-version: 18.x
         cache: 'npm'
-    - name: Install Backend Dependencies
+
+    - name: Install backend dependencies
       run: |
         cd ./app/backend
         npm install
-    - name: Run Backend Tests
+
+    - name: Run backend tests with coverage
+      env:
+        NYC_REPORT: lcov
       run: |
         cd ./app/backend
         npm run test:coverage
     
     - name: Upload coverage reports to Codecov
+      working-directory: ./app/backend
       uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
